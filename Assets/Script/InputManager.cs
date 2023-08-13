@@ -6,13 +6,22 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     private PlayerInput playerInput;
-    private PlayerInput.OnFootActions onFoot;
+    public PlayerInput.OnFootActions onFoot;
     private PlayerMotor motor;
     private PlayerLook look;
+
+
+    void OnApplicationFocus(bool hasFocus)
+    {
+
+    }
 
     // Start is called before the first frame update
     void Awake()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
+
         playerInput = new PlayerInput();
         onFoot = playerInput.OnFoot;
         motor = GetComponent<PlayerMotor>();
@@ -23,7 +32,7 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
+        motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>(), onFoot.Run.ReadValue<float>());
     }
 
     private void LateUpdate()
