@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class InputManager : MonoBehaviour
     public PlayerInput.OnFootActions onFoot;
     private PlayerMotor motor;
     private PlayerLook look;
-
+    private PlayerGuns playerGuns;
 
     void OnApplicationFocus(bool hasFocus)
     {
@@ -26,7 +27,12 @@ public class InputManager : MonoBehaviour
         onFoot = playerInput.OnFoot;
         motor = GetComponent<PlayerMotor>();
         look = GetComponent<PlayerLook>();
+        playerGuns = GetComponent<PlayerGuns>();
         onFoot.Jump.performed += ctx => motor.Jump();
+        onFoot.Shoot.started += ctx => playerGuns.StartShoot();
+        onFoot.Shoot.canceled += ctx => playerGuns.EndShoot();
+        onFoot.Reload.performed += ctx => playerGuns.TryReload();
+        onFoot.SwitchWeapons.started += ctx => playerGuns.TrySwitchGun(ctx.ReadValue<Vector2>());
     }
 
     // Update is called once per frame
