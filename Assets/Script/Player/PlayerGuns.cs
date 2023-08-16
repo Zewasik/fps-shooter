@@ -30,6 +30,7 @@ public class PlayerGuns : MonoBehaviour
         if (gunStorage.Count >= playerUI.inventorySlots.Count) return;
         if (currentItem) currentItem.SetActive(false);
 
+        gunToCheck.layer = 0;
         gunToCheck.GetComponent<Rigidbody>().isKinematic = true;
         gunToCheck.transform.parent = gunSlot.transform;
         gunToCheck.transform.SetPositionAndRotation(gunSlot.transform.position, gunSlot.transform.rotation);

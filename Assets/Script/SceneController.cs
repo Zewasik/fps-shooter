@@ -8,6 +8,8 @@ public class SceneController : MonoBehaviour
 {
     public void LoadLevel(string sceneToLoad)
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         SceneManager.LoadScene(sceneToLoad);
     }
 

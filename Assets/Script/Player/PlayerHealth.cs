@@ -8,11 +8,13 @@ public class PlayerHealth : MonoBehaviour
     private float health;
     public float maxHealth = 100f;
     public Image healthAmountImage;
+    private SceneController sceneController;
 
     // Start is called before the first frame update
     void Start()
     {
         health = maxHealth;
+        sceneController = GetComponent<SceneController>();
     }
 
     // Update is called once per frame
@@ -22,9 +24,9 @@ public class PlayerHealth : MonoBehaviour
 
         healthAmountImage.fillAmount = health / maxHealth;
 
-        if (health == 0 )
+        if (health <= 0 )
         {
-            Debug.Log("you are ded");
+            sceneController.LoadLevel("Game end");
         }
     }
 
