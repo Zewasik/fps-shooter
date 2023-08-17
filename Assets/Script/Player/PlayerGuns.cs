@@ -4,15 +4,18 @@ using UnityEngine;
 public class PlayerGuns : MonoBehaviour
 {
     public GameObject gunSlot;
+    public GameObject player;
     private GameObject currentItem;
     private readonly List<GameObject> gunStorage = new();
     private PlayerUI playerUI;
     private bool isShooting = false;
     private int? currentSlotIndex;
+    private Camera cam;
 
     private void Start()
     {
         playerUI = GetComponent<PlayerUI>();
+        cam = GetComponentInChildren<Camera>();
     }
 
     public void StartShoot()
@@ -31,7 +34,6 @@ public class PlayerGuns : MonoBehaviour
         if (currentItem) currentItem.SetActive(false);
 
         gunToCheck.layer = 0;
-        gunToCheck.GetComponent<Rigidbody>().isKinematic = true;
         gunToCheck.transform.parent = gunSlot.transform;
         gunToCheck.transform.SetPositionAndRotation(gunSlot.transform.position, gunSlot.transform.rotation);
         currentItem = gunToCheck;
@@ -71,7 +73,7 @@ public class PlayerGuns : MonoBehaviour
     private void Update()
     {
         if (isShooting && currentItem != null && currentItem.TryGetComponent<GunItem>(out var currentGun))
-            currentGun.Shoot();
+            currentGun.Shoot(cam.transform);
         TryUpdateAmmoCoutn();
     }
 }

@@ -5,8 +5,9 @@ public class GunItem : MonoBehaviour
 {
     public GameObject player;
     [SerializeField] GunData gunData;
-    float timeSinceLastShot;
-    Camera cam;
+    float timeSinceLastShot = float.MaxValue;
+    public GameObject particles;
+    public GameObject muzzle;
 
     public void PickUpGun()
     {
@@ -15,20 +16,16 @@ public class GunItem : MonoBehaviour
 
     private bool CanShoot() => !gunData.reloading && timeSinceLastShot > 1f / (gunData.fireRate / 60f);
 
-    public void Shoot()
+    public void Shoot(Transform from)
     {
         if (gunData.currentAmmo <= 0) return;
         if (!CanShoot()) return;
 
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit camHitInfo, gunData.maxDistance, player.layer))
+        if (Physics.Raycast(from.position, from.forward, out RaycastHit camHitInfo, gunData.maxDistance))
         {
-            Vector3 dir = Vector3.Normalize(camHitInfo.point - transform.position);
-            if (Physics.Raycast(transform.position, dir*gunData.maxDistance, out RaycastHit hitInfo, gunData.maxDistance))
+            if (camHitInfo.transform.TryGetComponent<IDamageable>(out var damageable))
             {
-                if (hitInfo.transform.TryGetComponent<IDamageable>(out var damageable))
-                {
-                    damageable.Damage(gunData.damage);
-                }
+                damageable.Damage(gunData.damage);
             }
         }
 
@@ -39,7 +36,9 @@ public class GunItem : MonoBehaviour
 
     private void OnGunShot()
     {
-
+        var newParticles = Instantiate(particles, muzzle.transform);
+        newParticles.SetActive(true);
+        Destroy(newParticles, 0.1f);
     }
 
     public void StartReload()
@@ -65,6 +64,11 @@ public class GunItem : MonoBehaviour
         return gunData.currentAmmo;
     }
 
+    public float GetMaxDistance()
+    {
+        return gunData.maxDistance;
+    }
+
     public Sprite GetIcon()
     {
         return gunData.gunIcon;
@@ -72,7 +76,7 @@ public class GunItem : MonoBehaviour
 
     void Start()
     {
-        cam = player.GetComponentInChildren<Camera>();
+        particles.SetActive(false);
     }
 
     void Update()

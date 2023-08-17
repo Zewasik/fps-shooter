@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
     private float health;
     public float maxHealth = 100f;
@@ -26,6 +26,10 @@ public class PlayerHealth : MonoBehaviour
 
         if (health <= 0 )
         {
+            if (TryGetComponent<Storage>(out var storage))
+            {
+                storage.LoseCount++;
+            }
             sceneController.LoadLevel("Game end");
         }
     }
@@ -38,5 +42,10 @@ public class PlayerHealth : MonoBehaviour
     public void GetHeal(float healAmount)
     {
         health += healAmount;
+    }
+
+    public void Damage(float damage)
+    {
+        TakeDamage(damage);
     }
 }
