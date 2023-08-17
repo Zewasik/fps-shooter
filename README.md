@@ -24,6 +24,16 @@ The project is structured as follows:
 - **Scripts**: Contains C# scripts that control gameplay, player interactions, and more.
 - **Scenes**: Contains the main game scene and UI scenes for menus and win/lose screens.
 
+## Used Packages
+
+This project makes use of the following packages:
+
+- **AI Navigation 1.1.4**: This package provides navigation functionality for AI-controlled characters. It allows enemies to navigate the game environment and detect the player's presence.
+
+- **Input System 1.6.3**: The Input System package simplifies and centralizes input management. It enhances player controls by providing better support for various input devices and customization.
+
+- **TextMeshPro 3.0.6**: TextMeshPro offers enhanced text rendering capabilities, including improved text appearance and support for rich text features. It's used to create visually appealing UI elements in the game.
+
 ## How to Play
 
 1. Clone or download the repository.
