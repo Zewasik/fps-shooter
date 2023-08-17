@@ -34,6 +34,12 @@ This project makes use of the following packages:
 
 - **TextMeshPro 3.0.6**: TextMeshPro offers enhanced text rendering capabilities, including improved text appearance and support for rich text features. It's used to create visually appealing UI elements in the game.
 
+## Download Built Project
+
+You can download and play the built version of the game from the following Google Drive link: [Download Built Project](https://drive.google.com/drive/folders/1pEIogIL9-9MLS7K7l-xcLmdZcsXxK_nP?usp=sharing)
+
+Please note that this link provides read-only access.
+
 ## How to Play
 
 1. Clone or download the repository.
